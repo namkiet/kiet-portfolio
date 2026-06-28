@@ -7,7 +7,9 @@ interface Project {
   image: ImageMetadata;
   link: string;
   preview: string;
-  status: string;
+  description: string;
+  tech: string;
+  details: string[];
 }
 
 const projects: Project[] = [
@@ -16,85 +18,112 @@ const projects: Project[] = [
     image: placeholderImg as ImageMetadata,
     link: "https://github.com/ThanDongVanHoc/GDGOC-2026",
     preview: "Need info",
-    status: "Top 6 Finalist, GDGOC Hackathon Vietnam 2026",
+    description: "Top 6 Finalist, GDGOC Hackathon Vietnam 2026",
+    tech: "Python, ComfyUI, Diffusion Inpainting, OpenCV",
+    details: [
+      "Built a 3-stage pipeline (background transformation → object replacement → Vietnamese text rendering) for cross-cultural content adaptation",
+      "Integrated Qwen-Image-Edit 2509 with 4-step Lightning LoRA via ComfyUI for fast diffusion inference on cloud GPU",
+      "Rendered Vietnamese text using cv2 inpainting and Qwen Image Edit for completion and aesthetics",
+    ],
   },
   {
     title: "LocalFood",
     image: placeholderImg as ImageMetadata,
     link: "https://github.com/namkiet/CS252-Web-Project-Group-XXX",
     preview: "Need info",
-    status: "Multi-Agent System for Personalized Local Food and Itinerary Recommendations",
+    description: "Multi-Agent System for Personalized Local Food and Itinerary Recommendations",
+    tech: "Python, Flask, Selenium, SQLite, React, TypeScript",
+    details: [
+      "Built backend RESTful APIs using Flask to serve structured data",
+      "Scraped restaurant data using Selenium and organized it for backend APIs",
+      "Stored and managed data in SQLite database to power the AI agent's knowledge base",
+      "Improved query performance by caching search history to reduce LLM response latency",
+    ],
   },
 ];
 ---
 
 <section
   id="projects"
-  class="py-12 border-t border-[#ffffff10] text-[var(--white)]"
+  class="py-12 border-t border-[var(--component-border)] text-[var(--white)] scroll-reveal"
 >
   <div class="max-w-5xl mx-auto">
     <h2 class="text-lg text-[var(--sec)] mb-2 shiny-sec">My work</h2>
     <h3 class="text-4xl md:text-5xl font-medium mb-8">Projects</h3>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="flex flex-col">
       {
-        projects.map((project) => (
-          <div class="group">
-            <a
-              href={project.preview}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="block"
-            >
-              <div class="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 mb-4">
+        projects.map((project, index) => (
+          <>
+            {index > 0 && (
+              <div class="w-full h-px bg-gradient-to-r from-transparent via-[var(--sec)] to-transparent opacity-30 my-12"></div>
+            )}
+            <div class={`flex flex-col ${index % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} items-center gap-6 md:gap-8 group`}>
+            <div class="md:w-1/2 w-full relative">
+              <a
+                href={project.preview}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block overflow-hidden rounded-2xl"
+              >
                 <Image
                   src={project.image}
                   alt={project.title}
                   class="w-full h-48 md:h-72 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-              </div>
-              <div class="flex items-center px-3">
-                <div class="flex-grow">
-                  <h4 class="text-2xl font-semibold">{project.title}</h4>
-                  <span class="py-1 text-sm text-[var(--white-icon)]">
-                    {project.status}
-                  </span>
-                </div>
-                <div class="flex gap-2 ml-auto">
-                  <a
-                    target="_blank"
-                    href={project.link}
-                    aria-label="GitHub"
-                    class="size-14 flex justify-center items-center text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-1 border-[var(--white-icon-tr)] p-3 rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
+              </a>
+              <div class="absolute top-3 right-3 flex gap-2">
+                <a
+                  target="_blank"
+                  href={project.link}
+                  aria-label="GitHub"
+                  class="size-10 md:size-12 flex justify-center items-center text-[var(--white-icon)] hover:text-[var(--white)] transition duration-300 ease-in-out border border-[var(--component-border)] rounded-xl bg-[var(--component-bg)] hover:bg-[var(--white-icon-tr)] backdrop-blur-sm"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-5 md:size-6"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="size-7"
-                    >
-                      <path d="M24 12L18.3431 17.6569L16.9289 16.2426L21.1716 12L16.9289 7.75736L18.3431 6.34315L24 12ZM2.82843 12L7.07107 16.2426L5.65685 17.6569L0 12L5.65685 6.34315L7.07107 7.75736L2.82843 12ZM9.78845 21H7.66009L14.2116 3H16.3399L9.78845 21Z" />
-                    </svg>
-                  </a>
-                  <a
-                    target="_blank"
-                    href={project.preview}
-                    aria-label="Preview"
-                    class="size-14 flex justify-center items-center text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-1 border-[var(--white-icon-tr)] p-3 rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
+                    <path d="M24 12L18.3431 17.6569L16.9289 16.2426L21.1716 12L16.9289 7.75736L18.3431 6.34315L24 12ZM2.82843 12L7.07107 16.2426L5.65685 17.6569L0 12L5.65685 6.34315L7.07107 7.75736L2.82843 12ZM9.78845 21H7.66009L14.2116 3H16.3399L9.78845 21Z" />
+                  </svg>
+                </a>
+                <a
+                  target="_blank"
+                  href={project.preview}
+                  aria-label="Preview"
+                  class="size-10 md:size-12 flex justify-center items-center text-[var(--white-icon)] hover:text-[var(--white)] transition duration-300 ease-in-out border border-[var(--component-border)] rounded-xl bg-[var(--component-bg)] hover:bg-[var(--white-icon-tr)] backdrop-blur-sm"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-5 md:size-6"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="size-7"
-                    >
-                      <path d="M16.0037 9.41421L7.39712 18.0208L5.98291 16.6066L14.5895 8H7.00373V6H18.0037V17H16.0037V9.41421Z" />
-                    </svg>
-                  </a>
-                </div>
+                    <path d="M16.0037 9.41421L7.39712 18.0208L5.98291 16.6066L14.5895 8H7.00373V6H18.0037V17H16.0037V9.41421Z" />
+                  </svg>
+                </a>
               </div>
-            </a>
+            </div>
+            <div class="md:w-1/2 w-full flex flex-col justify-center">
+              <h4 class="text-3xl md:text-4xl font-semibold">{project.title}</h4>
+              <p class="pt-3 text-base text-[var(--white-icon)] italic">
+                {project.description}
+              </p>
+              <p class="py-2 text-sm text-[var(--sec)] font-mono">
+                {project.tech}
+              </p>
+              <ul class="space-y-2">
+                {project.details.map((detail) => (
+                  <li class="text-base text-[var(--white-icon)] flex items-start gap-2">
+                    <span class="text-[var(--sec)] mt-1">•</span>
+                    <span>{detail}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
+          </>
         ))
       }
     </div>
@@ -102,7 +131,7 @@ const projects: Project[] = [
       target="_blank"
       href="https://github.com/namkiet?tab=repositories"
       aria-label="GitHub"
-      class="w-full flex items-center justify-center gap-2 mt-9 text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-[var(--white-icon-tr)] p-3 rounded-full bg-[#1414149c] hover:bg-[var(--white-icon-tr)] hover:scale-105"
+      class="w-full flex items-center justify-center gap-2 mt-9 text-[var(--white-icon)] hover:text-[var(--white)] transition duration-300 ease-in-out border border-[var(--white-icon-tr)] p-3 rounded-full bg-[#1414149c] hover:bg-[var(--white-icon-tr)] hover:scale-105"
     >
       <span class="md:text-lg text-md">More projects on</span>
       <svg
