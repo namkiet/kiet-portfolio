@@ -10,6 +10,18 @@ const technologies = [
   "git",
   "linux",
 ];
+
+const displayNames: Record<string, string> = {
+  pytorch: "PyTorch",
+  opencv: "OpenCV",
+  python: "Python",
+  fastapi: "FastAPI",
+  docker: "Docker",
+  postgresql: "PostgreSQL",
+  cplusplus: "C++",
+  git: "Git",
+  linux: "Linux",
+};
 ---
 
 <div class="relative overflow-x-hidden py-8">
@@ -25,7 +37,7 @@ const technologies = [
         >
           <img
             src={`/svg/${tech}.svg`}
-            alt={tech}
+            alt={displayNames[tech]}
             class="h-7 w-auto object-contain transition-transform group-hover:scale-110 opacity-60"
             width="30"
             height="30"
@@ -33,7 +45,7 @@ const technologies = [
             decoding="async"
           />
           <span class="text-lg font-medium text-[var(--white-icon)] whitespace-nowrap">
-            {tech.charAt(0).toUpperCase() + tech.slice(1)}
+            {displayNames[tech]}
           </span>
         </div>
       ))
